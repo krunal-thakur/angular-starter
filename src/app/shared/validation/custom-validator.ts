@@ -1,4 +1,3 @@
-import { CustomValidators } from './custom-validator';
 import { ValidatorFn, FormControl } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { Validators, AbstractControl, ValidationErrors } from '@angular/forms';
@@ -89,6 +88,21 @@ export class CustomValidators extends Validators {
 
             return error;
         };
+    }
+
+    static validateIf(configParams: GroupValidatorConfigParams): ValidatorFn {
+        let subscriptionCreated: boolean = false;
+        return (control: AbstractControl): ValidationErrors | null => {
+            let groups = configParams.source.group as SourceParamsConfig[];
+            let isValidatorApplicable = groups.every((config) => {
+                return Object.keys(config).every(property => {
+                    return false;
+                });
+                
+            });
+            return null;
+
+        }
     }
 
     static subscribeValueChanges(form: AbstractControl, control: AbstractControl, source: string[]) {
